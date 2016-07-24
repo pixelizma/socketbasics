@@ -6,8 +6,10 @@ socket.on('connect', function() {
 
 var $messageArea = $('.messages');
 socket.on('message', function(message){
+	var momentTimeStamp = moment.utc(message.timestamp);
 	console.log(message.text);
-	$messageArea.append('<p>'+message.text+'</p>');
+	$messageArea.append('<p><strong>' + momentTimeStamp.local().format('h:m a') 
+										+ ' : </strong>'+message.text+'</p>');
 });
 
 var $form = $('#message-form');

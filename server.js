@@ -3,30 +3,34 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var moment = require('moment');
+moment.locale('tr');
 
 app.use(express.static(__dirname + '/public'));
 
-io.on('connection', function(socket){
+io.on('connection', function(socket) {
 	console.log('User connected via socket.io!');
 
-	socket.on('message', function(message){
+	socket.on('message', function(message) {
 		console.log(message.text);
 
 		//işlemi gönderen bağlantı dışındaki bağlantılara gönderir...
 		//socket.broadcast.emit('message', message);
+
+		message.timestamp = moment().valueOf();
 
 		//işlemi gönderen bağlantı dahil tüm bağlantılara gönderir...
 		io.emit('message', message);
 	});
 
 	socket.emit('message', {
-		text: 'Welcome to the chat app!'
+		text: 'Welcome to the chat app!',
+		timestamp: moment().valueOf()
 	});
 });
 
 
 
-http.listen(PORT, function(){
+http.listen(PORT, function() {
 	console.log('Server started!');
 });
-
