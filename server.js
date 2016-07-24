@@ -11,7 +11,12 @@ io.on('connection', function(socket){
 
 	socket.on('message', function(message){
 		console.log(message.text);
-		socket.broadcast.emit('message', message);
+
+		//işlemi gönderen bağlantı dışındaki bağlantılara gönderir...
+		//socket.broadcast.emit('message', message);
+
+		//işlemi gönderen bağlantı dahil tüm bağlantılara gönderir...
+		io.emit('message', message);
 	});
 
 	socket.emit('message', {

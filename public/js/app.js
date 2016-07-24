@@ -4,8 +4,10 @@ socket.on('connect', function() {
 	console.log('connect');
 });
 
+var $messageArea = $('.messages');
 socket.on('message', function(message){
 	console.log(message.text);
+	$messageArea.append('<p>'+message.text+'</p>');
 });
 
 var $form = $('#message-form');
