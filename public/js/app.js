@@ -2,10 +2,17 @@ var name = getQueryVariable('name') || 'Guest';
 var room = getQueryVariable('room');
 var socket = io();
 
+$('.roomTitle').html(room);
+
 console.log(name + ' wants to join ' + room);
 
 socket.on('connect', function() {
 	console.log('connect');
+
+	socket.emit('joinRoom', {
+		name: name,
+		room: room
+	});
 });
 
 
